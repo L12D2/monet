@@ -85,7 +85,8 @@ intersphinx_mapping = {
 
 linkcheck_ignore = [
     "https://glossary.ametsoc.org/wiki/",  # currently a cert issue
-    "https://doi.org/10.1029/2000WR900033",  # 403 at Wiley
+    "https://doi.org/10.1029/2000WR900033",  # 403 at journal
+    "https://doi.org/10.3390/atmos8110210",  # 403 at journal
 ]
 linkcheck_report_timeouts_as_broken = True
 
