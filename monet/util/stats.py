@@ -1318,16 +1318,22 @@ def matchmasks(a1, a2):
 
     Parameters
     ----------
-    a1 : numpy.ma.MaskedArray
-        First masked array.
-    a2 : numpy.ma.MaskedArray
-        Second masked array.
+    a1 : numpy.ndarray or numpy.ma.MaskedArray
+        First array.
+    a2 : numpy.ndarray or numpy.ma.MaskedArray
+        Second array.
 
     Returns
     -------
     tuple of numpy.ma.MaskedArray
         Tuple of (a1, a2) with matched masks.
     """
+    # Convert regular arrays to masked arrays if needed
+    if not isinstance(a1, np.ma.MaskedArray):
+        a1 = np.ma.array(a1)
+    if not isinstance(a2, np.ma.MaskedArray):
+        a2 = np.ma.array(a2)
+
     if np.any(a1.mask) or np.any(a2.mask):
         mask = np.logical_or(a1.mask, a2.mask)
         a1 = np.ma.masked_array(a1.data, mask=mask)
