@@ -47,20 +47,21 @@ def calc_c_p(p, ea):
 
     Parameters
     ----------
-    p : float
-        total air pressure (dry air + water vapour) (mb).
-    ea : float
-        water vapor pressure at reference height above canopy (mb).
+    p : float or numpy.ndarray
+        Total air pressure (dry air + water vapour) in millibars (mb).
+    ea : float or numpy.ndarray
+        Water vapor pressure at reference height above canopy in millibars (mb).
 
     Returns
     -------
-    c_p : heat capacity of (moist) air at constant pressure (J kg-1 K-1).
+    float or numpy.ndarray
+        Heat capacity of (moist) air at constant pressure (J kg-1 K-1).
 
     References
     ----------
-    based on equation (6.1) from Maarten Ambaum (2010):
-    Thermal Physics of the Atmosphere (pp 109)."""
-
+    Based on equation (6.1) from Maarten Ambaum (2010):
+    Thermal Physics of the Atmosphere (pp 109).
+    """
     # first calculate specific humidity, rearanged eq (5.22) from Maarten
     # Ambaum (2010), (pp 100)
     q = epsilon * ea / (p + (epsilon - 1.0) * ea)
@@ -74,18 +75,18 @@ def calc_lambda(T_A_K):
 
     Parameters
     ----------
-    T_A_K : float
-        Air temperature (Kelvin).
+    T_A_K : float or numpy.ndarray
+        Air temperature in Kelvin.
 
     Returns
     -------
-    Lambda : float
+    float or numpy.ndarray
         Latent heat of vaporisation (J kg-1).
 
     References
     ----------
-    based on Eq. 3-1 Allen FAO98"""
-
+    Based on Eq. 3-1 Allen FAO98.
+    """
     Lambda = 1e6 * (2.501 - (2.361e-3 * (T_A_K - 273.15)))
     return np.asarray(Lambda)
 
@@ -425,29 +426,29 @@ def calc_L(ustar, T_A_K, rho, c_p, H, LE):
 
     Parameters
     ----------
-    ustar : float
-        friction velocity (m s-1).
-    T_A_K : float
-        air temperature (Kelvin).
-    rho : float
-        air density (kg m-3).
-    c_p : float
+    ustar : float or numpy.ndarray
+        Friction velocity (m s-1).
+    T_A_K : float or numpy.ndarray
+        Air temperature in Kelvin.
+    rho : float or numpy.ndarray
+        Air density (kg m-3).
+    c_p : float or numpy.ndarray
         Heat capacity of air at constant pressure (J kg-1 K-1).
-    H : float
-        sensible heat flux (W m-2).
-    LE : float
-        latent heat flux (W m-2).
+    H : float or numpy.ndarray
+        Sensible heat flux (W m-2).
+    LE : float or numpy.ndarray
+        Latent heat flux (W m-2).
 
     Returns
     -------
-    L : float
+    float or numpy.ndarray
         Obukhov stability length (m).
 
     References
     ----------
-    [Brutsaert2005]_
+    Brutsaert, W. (2005). Hydrology: an introduction (Vol. 61, No. 8).
+    Cambridge: Cambridge University Press.
     """
-
     # Convert input scalars to numpy arrays
     ustar, T_A_K, rho, c_p, H, LE = map(np.asarray, (ustar, T_A_K, rho, c_p, H, LE))
     # first convert latent heat into rate of surface evaporation (kg m-2 s-1)

@@ -20,11 +20,12 @@ def _ensure_swathdef_compatability(defn):
     Parameters
     ----------
     defn : pyresample.geometry.SwathDefinition
-        A :class:`pyresample.geometry.SwathDefinition` instance.
+        A SwathDefinition instance to check and potentially modify.
 
     Returns
     -------
     pyresample.geometry.SwathDefinition
+        The original or modified SwathDefinition with xarray.DataArray attributes.
     """
     import xarray as xr
 
@@ -37,17 +38,25 @@ def _ensure_swathdef_compatability(defn):
 
 
 def _check_swath_or_area(defn):
-    """Checks for a SwathDefinition or AreaDefinition. If AreaDefinition do
-    nothing else ensure compatibility with XArrayResamplerNN
+    """Checks for SwathDefinition or AreaDefinition compatibility.
+
+    If defn is a SwathDefinition, ensures compatibility with XArrayResamplerNN.
+    If defn is an AreaDefinition, returns it unchanged.
 
     Parameters
     ----------
     defn : pyresample.geometry.SwathDefinition or pyresample.geometry.AreaDefinition
+        The definition to check and potentially modify.
 
     Returns
     -------
-    new_defn
-        SwathDefinition or AreaDefinition
+    pyresample.geometry.SwathDefinition or pyresample.geometry.AreaDefinition
+        The checked and potentially modified definition, compatible with resampling.
+
+    Raises
+    ------
+    RuntimeError
+        If the input is neither a SwathDefinition nor an AreaDefinition.
     """
     try:
         if isinstance(defn, SwathDefinition):
@@ -63,22 +72,21 @@ def _check_swath_or_area(defn):
 
 
 def _reformat_resampled_data(orig, new, target_grid):
-    """reformats the resampled data array filling in coords, name and attrs .
+    """Reformats the resampled data array with appropriate coordinates and attributes.
 
     Parameters
     ----------
     orig : xarray.DataArray
-        original input DataArray.
+        Original input DataArray before resampling.
     new : xarray.DataArray
-        resampled xarray.DataArray
+        Resampled DataArray that needs reformatting.
     target_grid : pyresample.geometry
-        target grid is the target SwathDefinition or AreaDefinition
+        Target SwathDefinition or AreaDefinition with coordinate information.
 
     Returns
     -------
     xarray.DataArray
-        reformatted xarray.DataArray
-
+        Reformatted DataArray with proper coordinates, name, and attributes.
     """
     target_lon, target_lat = target_grid.get_lonlats_dask()
     new.name = orig.name
@@ -89,6 +97,24 @@ def _reformat_resampled_data(orig, new, target_grid):
 
 
 def resample_stratify(da, levels, vertical, axis=1):
+    """Vertically interpolate data to specified levels.
+
+    Parameters
+    ----------
+    da : xarray.DataArray
+        DataArray containing the data to interpolate.
+    levels : array-like
+        Target vertical levels to interpolate to.
+    vertical : xarray.DataArray
+        DataArray containing the vertical coordinate values.
+    axis : int, default: 1
+        Axis along which to perform the interpolation.
+
+    Returns
+    -------
+    xarray.DataArray
+        Interpolated data at the specified levels.
+    """
     import stratify
     import xarray as xr
 
@@ -104,6 +130,28 @@ def resample_stratify(da, levels, vertical, axis=1):
 
 
 def resample_xesmf(source_da, target_da, cleanup=False, **kwargs):
+    """Resample data using xESMF regridding.
+
+    Parameters
+    ----------
+    source_da : xarray.DataArray or xarray.Dataset
+        Source data to be regridded.
+    target_da : xarray.DataArray or xarray.Dataset
+        Target grid definition.
+    cleanup : bool, default: False
+        Whether to clean up the weight file after regridding.
+    **kwargs : dict
+        Additional keyword arguments passed to xesmf.Regridder.
+
+    Returns
+    -------
+    xarray.DataArray or xarray.Dataset
+        Regridded data on the target grid.
+
+    Notes
+    -----
+    Requires xESMF to be installed.
+    """
     if has_xesmf:
         import xarray as xr
         import xesmf as xe

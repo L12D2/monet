@@ -1,5 +1,10 @@
 """
-Taylor diagram (Taylor, 2001) test implementation.
+Taylor diagram (Taylor, 2001) implementation.
+
+This module provides a class to create Taylor diagrams which show model standard
+deviation and correlation to reference (data) samples in a single-quadrant polar plot.
+
+Reference:
 http://www-pcmdi.llnl.gov/about/staff/Taylor/CV/Taylor_diagram_primer.htm
 """
 
@@ -32,11 +37,25 @@ class TaylorDiagram:
 
     @_sns_context
     def __init__(self, refstd, scale=1.5, fig=None, rect=111, label="_"):
-        """Set up Taylor diagram axes, i.e. single quadrant polar
-        plot, using mpl_toolkits.axisartist.floating_axes. refstd is
-        the reference standard deviation to be compared to.
-        """
+        """Initialize Taylor diagram axes.
 
+        Parameters
+        ----------
+        refstd : float
+            Reference standard deviation to be compared to.
+        scale : float, default: 1.5
+            Maximum value for standard deviation axis, as a multiple of refstd.
+        fig : matplotlib.figure.Figure, optional
+            Figure to plot on. If None, a new figure is created.
+        rect : int or tuple, default: 111
+            Subplot specification in matplotlib format.
+        label : str, default: "_"
+            Label for the reference point. Defaults to "_" which doesn't appear in the legend.
+
+        Returns
+        -------
+        None
+        """
         import mpl_toolkits.axisartist.floating_axes as FA
         import mpl_toolkits.axisartist.grid_finder as GF
         from matplotlib.projections import PolarAxes
@@ -101,9 +120,24 @@ class TaylorDiagram:
 
     @_sns_context
     def add_sample(self, stddev, corrcoef, *args, **kwargs):
-        """Add sample (stddev,corrcoeff) to the Taylor diagram. args
-        and kwargs are directly propagated to the Figure.plot
-        command."""
+        """Add sample point to the Taylor diagram.
+
+        Parameters
+        ----------
+        stddev : float
+            Standard deviation of the sample.
+        corrcoef : float
+            Correlation coefficient of the sample with reference.
+        *args : tuple
+            Additional positional arguments passed to the plot function.
+        **kwargs : dict
+            Additional keyword arguments passed to the plot function.
+
+        Returns
+        -------
+        matplotlib.lines.Line2D
+            Line object representing the sample point.
+        """
         (l,) = self.ax.plot(np.arccos(corrcoef), stddev, *args, **kwargs)  # (theta,radius)
         self.samplePoints.append(l)
 
@@ -111,8 +145,22 @@ class TaylorDiagram:
 
     @_sns_context
     def add_contours(self, levels=5, **kwargs):
-        """Add constant centered RMS difference contours."""
+        """Add constant centered RMS difference contours to the Taylor diagram.
 
+        Parameters
+        ----------
+        levels : int or array-like, default: 5
+            Determines the number and positions of the contour lines.
+            If an int n, use n data intervals; i.e., draw n+1 contour lines.
+            If array-like, draw contour lines at the specified levels.
+        **kwargs : dict
+            Additional keyword arguments passed to the contour function.
+
+        Returns
+        -------
+        matplotlib.contour.QuadContourSet
+            Contour set object.
+        """
         rs, ts = np.meshgrid(np.linspace(self.smin, self.smax), np.linspace(0, np.pi / 2))
         # Compute centered RMS difference
         rms = np.sqrt(self.refstd**2 + rs**2 - 2 * self.refstd * rs * np.cos(ts))

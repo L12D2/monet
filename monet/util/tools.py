@@ -4,6 +4,21 @@ __author__ = "barry"
 
 
 def search_listinlist(array1, array2):
+    """Find indices of intersection elements between two arrays.
+
+    Parameters
+    ----------
+    array1 : numpy.ndarray
+        First array to compare.
+    array2 : numpy.ndarray
+        Second array to compare.
+
+    Returns
+    -------
+    tuple
+        A tuple of (index1, index2) where index1 contains indices in array1
+        and index2 contains indices in array2 that correspond to intersection elements.
+    """
     # find intersections
 
     s1 = set(array1.flatten())
@@ -24,6 +39,26 @@ def search_listinlist(array1, array2):
 
 
 def linregress(x, y):
+    """Calculate a linear least-squares regression for two sets of measurements.
+
+    Parameters
+    ----------
+    x : array_like
+        Independent variable.
+    y : array_like
+        Dependent variable.
+
+    Returns
+    -------
+    slope : float
+        Slope of the regression line.
+    intercept : float
+        Intercept of the regression line.
+    r_squared : float
+        Square of the correlation coefficient.
+    std_err : float
+        Standard error of the estimate.
+    """
     import statsmodels.api as sm
 
     xx = sm.add_constant(x)
@@ -36,6 +71,22 @@ def linregress(x, y):
 
 
 def findclosest(list, value):
+    """Find the index and value in a list that is closest to a given value.
+
+    Parameters
+    ----------
+    list : array_like
+        List or array to search.
+    value : float or int
+        Value to find closest match for.
+
+    Returns
+    -------
+    index : int
+        Index of the closest value.
+    closest_value : same type as elements in list
+        The value in the list that is closest to the given value.
+    """
     a = min((abs(x - value), x, i) for i, x in enumerate(list))
     return a[2], a[1]
 
