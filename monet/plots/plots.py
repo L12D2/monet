@@ -460,43 +460,57 @@ def scatter(df, x=None, y=None, title=None, label=None, ax=None, **kwargs):
 
 @_default_sns_context
 def taylordiagram(
-    df,
-    marker="o",
-    col1="obs",
-    col2="model",
-    label1="OBS",
-    label2="MODEL",
-    scale=1.5,
-    addon=False,
-    dia=None,
+    obsvalues,
+    modvalues,
+    obsname="Observations",
+    modname="Model",
+    colors="black",
+    markers="o",
+    markersize=7,
+    label=None,
+    ranges=None,
+    ax=None,
+    extend=True,
+    axismax=None,
+    **kwargs
 ):
-    """Create a Taylor diagram comparing model results to observations.
+    """Compute the Taylor Diagram from observed and modeled values.
+
+    :no-index:
 
     Parameters
     ----------
-    df : pandas.DataFrame
-        DataFrame containing the data to plot.
-    marker : str, default: "o"
-        Marker style for the model point.
-    col1 : str, default: "obs"
-        Column name for the observations.
-    col2 : str, default: "model"
-        Column name for the model results.
-    label1 : str, default: "OBS"
-        Label for the observation point.
-    label2 : str, default: "MODEL"
-        Label for the model point.
-    scale : float, default: 1.5
-        Maximum value for standard deviation axis, as a multiple of reference std.
-    addon : bool, default: False
-        Whether to add to an existing Taylor diagram.
-    dia : TaylorDiagram, optional
-        Existing TaylorDiagram instance to add to if addon=True.
+    obsvalues : array_like
+        Observed/Reference values.
+    modvalues : array_like
+        Modeled/Predicted values.
+    obsname : str, optional
+        Name of the observed/reference values.
+    modname : str, optional
+        Name of the modeled/predicted values.
+    colors : str or list, optional
+        The colors for the markers.
+    markers : str or list, optional
+        The markers to use.
+    markersize : int, optional
+        The size of the markers.
+    label : str, optional
+        Label for the modeled values.
+    ranges : list, optional
+        Range limits for the plot, provided as [min, max].
+    ax : matplotlib.axes, optional
+        The axes on which to draw the Taylor Diagram.
+    extend : bool, optional
+        Whether to extend the plot for negative correlation.
+    axismax : float, optional
+        Maximum value for the axes of the diagram.
+    **kwargs
+        Additional keyword arguments passed to matplotlib plotting functions.
 
     Returns
     -------
-    TaylorDiagram
-        The Taylor diagram object.
+    matplotlib.axes
+        The axes on which the Taylor Diagram is drawn.
     """
     from numpy import corrcoef
 
@@ -526,3 +540,4 @@ def taylordiagram(
         plt.legend(fontsize="small", loc="best")
         plt.tight_layout()
     return dia
+
