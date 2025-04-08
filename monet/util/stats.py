@@ -1815,12 +1815,28 @@ def scores(obs, mod, minval, maxval=1.0e5):
     Returns
     -------
     tuple
-        Tuple containing (HSS, ETS, CSI) categorical scores.
+        Tuple containing (HSS, ETS, CSI, POD) categorical scores.
     """
     h = HSS(obs, mod, minval, maxval)
     e = ETS(obs, mod, minval, maxval)
     c = CSI(obs, mod, minval, maxval)
-    return h, e, c
+
+    # Calculate POD (Probability of Detection)
+    hits = misses = 0
+    obs, mod = matchedcompressed(obs, mod)
+    for i in range(len(obs)):
+        if (obs[i] >= minval) and (obs[i] <= maxval) and (mod[i] >= minval) and (mod[i] <= maxval):
+            hits += 1  # hit
+        elif ((obs[i] >= minval) and (obs[i] <= maxval)) and (
+            (mod[i] < minval) or (mod[i] > maxval)
+        ):
+            misses += 1  # miss
+    try:
+        pod = hits / (hits + misses)
+    except ZeroDivisionError:
+        pod = None
+
+    return h, e, c, pod
 
 
 def stats(df, minval, maxval):
