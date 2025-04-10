@@ -1,31 +1,9 @@
-"""Colorbar helper functions for MONET plots."""
+"""Colorbar helper functions"""
 
 import matplotlib.pyplot as plt
 
 
 def colorbar_index(ncolors, cmap, minval=None, maxval=None, dtype="int", basemap=None):
-    """Create a colorbar with discrete colors.
-
-    Parameters
-    ----------
-    ncolors : int
-        Number of discrete colors.
-    cmap : str or matplotlib.colors.Colormap
-        Colormap to discretize.
-    minval : float, optional
-        Minimum value for the colorbar. If None, uses 0.
-    maxval : float, optional
-        Maximum value for the colorbar. If None, uses ncolors.
-    dtype : str, default: "int"
-        Data type for colorbar labels ('int' or 'float').
-    basemap : basemap.Basemap, optional
-        Basemap instance to add colorbar to. If None, uses plt.colorbar.
-
-    Returns
-    -------
-    tuple
-        (colorbar, discretized_colormap)
-    """
     import matplotlib.cm as cm
     import numpy as np
 
@@ -49,27 +27,16 @@ def colorbar_index(ncolors, cmap, minval=None, maxval=None, dtype="int", basemap
 
 
 def cmap_discretize(cmap, N):
-    """Return a discrete colormap from a continuous colormap.
+    """
+    Return a discrete colormap from the continuous colormap cmap.
 
-    Parameters
-    ----------
-    cmap : str or matplotlib.colors.Colormap
-        Colormap instance or name to discretize.
-    N : int
-        Number of colors in the discrete colormap.
+    cmap: colormap instance, eg. cm.jet.
+    N: number of colors.
 
-    Returns
-    -------
-    matplotlib.colors.LinearSegmentedColormap
-        Discretized colormap.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> import matplotlib.pyplot as plt
-    >>> x = np.resize(np.arange(100), (5, 100))
-    >>> djet = cmap_discretize('jet', 5)
-    >>> plt.imshow(x, cmap=djet)
+    Example
+        x = resize(arange(100), (5,100))
+        djet = cmap_discretize(cm.jet, 5)
+        imshow(x, cmap=djet)
     """
     import matplotlib.colors as mcolors
     import numpy as np

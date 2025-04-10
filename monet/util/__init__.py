@@ -10,39 +10,12 @@ __all__ = ["stats", "mystats", "tools", "interp_util", "resample", "combinetool"
 
 
 def nearest(items, pivot):
-    """Find the item in an iterable that is nearest to a pivot value.
-
-    Parameters
-    ----------
-    items : iterable
-        Collection of items to search.
-    pivot : numeric
-        Value to find closest match for.
-
-    Returns
-    -------
-    item
-        The item from `items` that is closest to `pivot`.
-    """
     return min(items, key=lambda x: abs(x - pivot))
 
 
 def search_listinlist(array1, array2):
-    """Find indices of intersection elements between two arrays.
+    # find intersections
 
-    Parameters
-    ----------
-    array1 : numpy.ndarray
-        First array to compare.
-    array2 : numpy.ndarray
-        Second array to compare.
-
-    Returns
-    -------
-    tuple
-        A tuple of (index1, index2) where index1 contains indices in array1
-        and index2 contains indices in array2 that correspond to intersection elements.
-    """
     s1 = set(array1.flatten())
     s2 = set(array2.flatten())
 
@@ -61,26 +34,6 @@ def search_listinlist(array1, array2):
 
 
 def linregress(x, y):
-    """Perform a linear regression using statsmodels.
-
-    Parameters
-    ----------
-    x : array_like
-        Independent variable.
-    y : array_like
-        Dependent variable.
-
-    Returns
-    -------
-    intercept : float
-        Intercept of the regression line.
-    slope : float
-        Slope of the regression line.
-    r_squared : float
-        Coefficient of determination (R-squared).
-    std_err : float
-        Standard error of the estimate.
-    """
     import statsmodels.api as sm
 
     xx = sm.add_constant(x)
@@ -93,38 +46,14 @@ def linregress(x, y):
 
 
 def findclosest(list, value):
-    """Find the index and value in a list that is closest to a given value.
-
-    Parameters
-    ----------
-    list : array_like
-        List or array of values to search.
-    value : float or int
-        Target value to find closest match for.
-
-    Returns
-    -------
-    tuple
-        (index, closest_value) where index is the position in list and
-        closest_value is the element closest to value.
-    """
     a = min((abs(x - value), x, i) for i, x in enumerate(list))
     return a[2], a[1]
 
 
 def _force_forder(x):
-    """Convert array x to Fortran order.
-
-    Parameters
-    ----------
-    x : numpy.ndarray
-        Input array.
-
-    Returns
-    -------
-    tuple
-        (array, is_transposed) where array is in Fortran order and
-        is_transposed indicates if the array was transposed.
+    """
+    Converts arrays x to fortran order. Returns
+    a tuple in the form (x, is_transposed).
     """
     if x.flags.c_contiguous:
         return (x.T, True)
@@ -133,24 +62,13 @@ def _force_forder(x):
 
 
 def kolmogorov_zurbenko_filter(df, window, iterations):
-    """Apply Kolmogorov-Zurbenko filter to a pandas dataframe.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame or pandas.Series
-        Data to filter.
-    window : int
-        Filter window size (m = 2q+1 in KZ filter terminology).
-    iterations : int
-        Number of iterations of the moving average.
-
-    Returns
-    -------
-    pandas.DataFrame or pandas.Series
-        Filtered data with the same structure as input.
-    """
     import pandas as pd
 
+    """KZ filter implementation
+        series is a pandas series
+        window is the filter window m in the units of the data (m = 2q+1)
+        iterations is the number of times the moving average is evaluated
+        """
     z = df.copy()
     for i in range(iterations):
         z = pd.rolling_mean(z, window=window, min_periods=1, center=True)
@@ -158,20 +76,6 @@ def kolmogorov_zurbenko_filter(df, window, iterations):
 
 
 def wsdir2uv(ws, wdir):
-    """Convert wind speed and direction to u and v components.
-
-    Parameters
-    ----------
-    ws : array_like
-        Wind speed.
-    wdir : array_like
-        Wind direction in degrees (meteorological convention).
-
-    Returns
-    -------
-    tuple
-        (u, v) where u is the zonal component and v is the meridional component.
-    """
     from numpy import cos, pi, sin
 
     u = -ws * sin(wdir * pi / 180.0)
@@ -180,44 +84,17 @@ def wsdir2uv(ws, wdir):
 
 
 def long_to_wide(df):
-    """Convert a dataframe from long to wide format.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Long-format dataframe with 'time', 'siteid', 'variable', and 'obs' columns.
-
-    Returns
-    -------
-    pandas.DataFrame
-        Wide-format dataframe with variables as columns.
-    """
     from pandas import merge
 
     w = df.pivot_table(values="obs", index=["time", "siteid"], columns="variable").reset_index()
     g = df.groupby("variable")
     for name, group in g:
         w[name + "_unit"] = group.units.unique()[0]
+    # mergeon = hstack((index.values, df.variable.unique()))
     return merge(w, df, on=["siteid", "time"])
 
 
 def calc_8hr_rolling_max(df, col=None, window=None):
-    """Calculate 8-hour rolling maximum values.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input dataframe with 'time_local' and 'siteid' columns.
-    col : str
-        Column name to calculate rolling max for.
-    window : int
-        Rolling window size.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with original data and new rolling max column.
-    """
     df.index = df.time_local
     df_rolling = (
         df.groupby("siteid")[col]
@@ -234,20 +111,6 @@ def calc_8hr_rolling_max(df, col=None, window=None):
 
 
 def calc_24hr_ave(df, col=None):
-    """Calculate 24-hour averages.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input dataframe with 'time_local' and 'siteid' columns.
-    col : str
-        Column name to calculate daily average for.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with original data and new daily average column.
-    """
     df.index = df.time_local
     df_24hr_ave = df.groupby("siteid")[col].resample("D").mean().reset_index()
     df = df.reset_index(drop=True)
@@ -255,20 +118,6 @@ def calc_24hr_ave(df, col=None):
 
 
 def calc_3hr_ave(df, col=None):
-    """Calculate 3-hour averages.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input dataframe with 'time_local' and 'siteid' columns.
-    col : str
-        Column name to calculate 3-hour average for.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with original data and new 3-hour average column.
-    """
     df.index = df.time_local
     df_3hr_ave = df.groupby("siteid")[col].resample("3H").mean().reset_index()
     df = df.reset_index(drop=True)
@@ -276,20 +125,6 @@ def calc_3hr_ave(df, col=None):
 
 
 def calc_annual_ave(df, col=None):
-    """Calculate annual averages.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input dataframe with 'time_local' and 'siteid' columns.
-    col : str
-        Column name to calculate annual average for.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with original data and new annual average column.
-    """
     df.index = df.time_local
     df_annual_ave = df.groupby("siteid")[col].resample("A").mean().reset_index()
     df = df.reset_index(drop=True)
@@ -297,25 +132,6 @@ def calc_annual_ave(df, col=None):
 
 
 def get_giorgi_region_bounds(index=None, acronym=None):
-    """Get the boundary coordinates for a Giorgi region.
-
-    Parameters
-    ----------
-    index : int, optional
-        Giorgi region index (1-22).
-    acronym : str, optional
-        Giorgi region acronym (e.g., 'NAU', 'SAF').
-
-    Returns
-    -------
-    tuple
-        (latmin, lonmin, latmax, lonmax, acronym) for the region.
-
-    Raises
-    ------
-    ValueError
-        If neither index nor acronym is provided.
-    """
     import pandas as pd
 
     i = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
@@ -457,18 +273,6 @@ def get_giorgi_region_bounds(index=None, acronym=None):
 
 
 def get_giorgi_region_df(df):
-    """Add Giorgi region information to a dataframe.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        DataFrame with 'latitude' and 'longitude' columns.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with added 'GIORGI_INDEX' and 'GIORGI_ACRO' columns.
-    """
     df.loc[:, "GIORGI_INDEX"] = None
     df.loc[:, "GIORGI_ACRO"] = None
     for i in range(22):
@@ -485,34 +289,36 @@ def get_giorgi_region_df(df):
 
 
 def calc_13_category_usda_soil_type(clay, sand, silt):
-    """Calculate the 13 category USDA soil type from clay, sand, and silt content.
+    """Calculate the 13 category usda soil type from the clay sand and silt
+
+    0 -- WATER
+    1 -- SAND
+    2 -- LOAMY SAND
+    3 -- SANDY LOAM
+    4 -- SILT LOAM
+    5 -- SILT
+    6 -- LOAM
+    7 -- SANDY CLAY LOAM
+    8 -- SILTY CLAY LOAM
+    9 -- CLAY LOAM
+    10 --SANDY CLAY
+    11 --SILY CLAY
+    12 --CLAY
 
     Parameters
     ----------
-    clay : numpy.ndarray
-        Percent clay content (0-100).
-    sand : numpy.ndarray
-        Percent sand content (0-100).
-    silt : numpy.ndarray
-        Percent silt content (0-100).
+    clay : type
+        Description of parameter `clay`.
+    sand : type
+        Description of parameter `sand`.
+    silt : type
+        Description of parameter `silt`.
 
     Returns
     -------
-    numpy.ndarray
-        Array of soil type categories:
-        0 -- WATER
-        1 -- SAND
-        2 -- LOAMY SAND
-        3 -- SANDY LOAM
-        4 -- SILT LOAM
-        5 -- SILT
-        6 -- LOAM
-        7 -- SANDY CLAY LOAM
-        8 -- SILTY CLAY LOAM
-        9 -- CLAY LOAM
-        10 -- SANDY CLAY
-        11 -- SILTY CLAY
-        12 -- CLAY
+    type
+        Description of returned object.
+
     """
     from numpy import where, zeros
 

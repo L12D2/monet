@@ -44,18 +44,18 @@ __all__ = (
 
 
 def _dynamic_fig_size(obj):
-    """Try to determine a generic figure size based on the shape of obj.
+    """Try to determine a generic figure size based on the shape of obj
 
     Parameters
     ----------
-    obj : xarray.DataArray
-        A 2D xarray DataArray with dimensions that could be
-        'x'/'y', 'latitude'/'longitude', or 'lat'/'lon'.
+    obj : A 2D xarray DataArray
+        Description of parameter `obj`.
 
     Returns
     -------
-    tuple
-        A tuple of (width, height) for the figure size.
+    type
+        Description of returned object.
+
     """
     if "x" in obj.dims:
         nx, ny = len(obj.x), len(obj.y)
@@ -95,7 +95,7 @@ def savefig(fname, *, loc=1, decorate=True, logo=None, logo_height=None, **kwarg
         If not provided, the original logo image dimensions are used.
         Modify to scale the logo.
     **kwargs : dict
-        Additional keyword arguments passed to the ``plt.savefig`` function.
+        Passed to the ``plt.savefig`` function.
 
     Returns
     -------
@@ -160,40 +160,6 @@ def sp_scatter_bias(
     val_min=None,
     **kwargs,
 ):
-    """Create a scatter plot showing the bias between two columns.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        DataFrame containing the data to plot.
-    col1 : str
-        Name of the first column to compare (typically observed values).
-    col2 : str
-        Name of the second column to compare (typically model values).
-    ax : matplotlib.axes.Axes, optional
-        Axes to plot on. If None, a new map axis will be created.
-    outline : bool, default: False
-        Whether to show map outlines.
-    tight : bool, default: True
-        Whether to use tight layout.
-    global_map : bool, default: True
-        Whether to set global map limits.
-    map_kwargs : dict, default: {}
-        Additional keyword arguments for the map creation.
-    cbar_kwargs : dict, default: {}
-        Additional keyword arguments for the colorbar.
-    val_max : float, optional
-        Maximum value for colorbar. If None, it's determined from the data.
-    val_min : float, optional
-        Minimum value for colorbar. If None, it's determined from the data.
-    **kwargs : dict
-        Additional keyword arguments passed to the scatter plot.
-
-    Returns
-    -------
-    matplotlib.axes.Axes
-        The axes containing the plot.
-    """
     import matplotlib.pyplot as plt
     from scipy.stats import scoreatpercentile as score
 
@@ -236,19 +202,7 @@ def sp_scatter_bias(
 
 
 def _set_outline_patch_alpha(ax, alpha=0):
-    """Set the alpha value for the outline patch of a cartopy axis.
-
-    Parameters
-    ----------
-    ax : matplotlib.axes.Axes
-        A cartopy GeoAxes instance.
-    alpha : float, default: 0
-        Alpha transparency value to set (0 = fully transparent, 1 = fully opaque).
-
-    Returns
-    -------
-    None
-    """
+    """For :class:`cartopy.mpl.geoaxes.GeoAxes`"""
     for f in [
         lambda alpha: ax.axes.outline_patch.set_alpha(alpha),
         lambda alpha: ax.outline_patch.set_alpha(alpha),
