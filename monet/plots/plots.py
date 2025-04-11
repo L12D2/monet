@@ -505,40 +505,40 @@ def taylordiagram(
     addon=False,
     dia=None,
 ):
-    """Create a Taylor diagram comparing observed and modeled data.
+    """Create a Taylor diagram using the :mod:`monet.plots.taylordiagram` module.
+
+    This is a convenience wrapper around the TaylorDiagram class that handles
+    common use cases for comparing model and observation data.
 
     Parameters
     ----------
     df : pandas.DataFrame
-        DataFrame containing the observed and modeled data.
+        DataFrame containing the observed and modeled data
     marker : str, default "o"
-        Marker style for the model point.
+        Marker style for the model point
     col1 : str, default "obs"
-        Column name for observed values.
+        Column name for observed values
     col2 : str, default "model"
-        Column name for modeled values.
+        Column name for modeled values
     label1 : str, default "OBS"
-        Label for the observed data (reference) point.
+        Label for the observed data (reference) point
     label2 : str, default "MODEL"
-        Label for the modeled data point.
+        Label for the modeled data point
     scale : float, default 1.5
-        Scale factor for the diagram, relative to the reference standard deviation.
+        Scale factor for the diagram, relative to the reference standard deviation
     addon : bool, default False
-        If True, add to an existing diagram; if False, create a new diagram.
+        If True, add to an existing diagram; if False, create a new diagram
     dia : TaylorDiagram, optional
-        Existing Taylor diagram to add to if addon=True.
+        Existing Taylor diagram to add to if addon=True
 
     Returns
     -------
     TaylorDiagram
-        The Taylor diagram instance.
+        The Taylor diagram instance
 
-    Notes
-    -----
-    A Taylor diagram provides a way to visualize multiple aspects of model performance:
-    - Standard deviation (radial distance from origin)
-    - Correlation coefficient (angle)
-    - Root-mean-square difference (distance from reference point)
+    See Also
+    --------
+    monet.plots.taylordiagram : The underlying Taylor diagram implementation
     """
     from numpy import corrcoef
 
