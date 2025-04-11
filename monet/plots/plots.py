@@ -494,7 +494,7 @@ def scatter(df, x=None, y=None, title=None, label=None, ax=None, **kwargs):
 
 
 @_default_sns_context
-def taylordiagram(
+def create_taylor_diagram(
     df,
     marker="o",
     col1="obs",
@@ -506,7 +506,7 @@ def taylordiagram(
     dia=None,
 ):
     """
-    :noindex:
+    :no-index:
 
     Create a Taylor diagram comparing observed and modeled data in a DataFrame.
 
@@ -573,3 +573,5 @@ def taylordiagram(
         plt.legend(fontsize="small", loc="best")
         plt.tight_layout()
     return dia
+
+taylordiagram = create_taylor_diagram
