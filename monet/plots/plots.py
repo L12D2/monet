@@ -507,7 +507,7 @@ def taylordiagram(
 ):
     """Convenience function for creating Taylor diagrams from DataFrames.
 
-    :no-index:
+    :noindex:
 
     A wrapper function to simplify creating Taylor diagrams when comparing
     model outputs with observations stored in a pandas DataFrame.
