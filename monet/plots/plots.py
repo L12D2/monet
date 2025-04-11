@@ -574,4 +574,5 @@ def create_taylor_diagram(
         plt.tight_layout()
     return dia
 
+# Create an alias for the function to maintain backward compatibility
 taylordiagram = create_taylor_diagram
