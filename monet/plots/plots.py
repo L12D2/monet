@@ -505,31 +505,33 @@ def taylordiagram(
     addon=False,
     dia=None,
 ):
-    """Create a Taylor diagram using the :mod:`monet.plots.taylordiagram` module.
+    """Convenience function for creating Taylor diagrams from DataFrames.
 
-    This is a convenience wrapper around the TaylorDiagram class that handles
-    common use cases for comparing model and observation data.
+    :no-index:
+
+    A wrapper function to simplify creating Taylor diagrams when comparing
+    model outputs with observations stored in a pandas DataFrame.
 
     Parameters
     ----------
     df : pandas.DataFrame
-        DataFrame containing the observed and modeled data
+        DataFrame containing observation and model data columns
     marker : str, default "o"
-        Marker style for the model point
+        Marker style for plotting model points
     col1 : str, default "obs"
-        Column name for observed values
+        Name of observations column
     col2 : str, default "model"
-        Column name for modeled values
+        Name of model predictions column
     label1 : str, default "OBS"
-        Label for the observed data (reference) point
+        Label for observations in plot legend
     label2 : str, default "MODEL"
-        Label for the modeled data point
+        Label for model in plot legend
     scale : float, default 1.5
-        Scale factor for the diagram, relative to the reference standard deviation
+        Scaling factor relative to reference standard deviation
     addon : bool, default False
-        If True, add to an existing diagram; if False, create a new diagram
+        If True, add to existing diagram; if False, create new
     dia : TaylorDiagram, optional
-        Existing Taylor diagram to add to if addon=True
+        Existing diagram to add to if addon=True
 
     Returns
     -------
@@ -538,7 +540,8 @@ def taylordiagram(
 
     See Also
     --------
-    monet.plots.taylordiagram : The underlying Taylor diagram implementation
+    monet.plots.taylordiagram
+        The underlying Taylor diagram implementation
     """
     from numpy import corrcoef
 
