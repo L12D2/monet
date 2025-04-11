@@ -28,6 +28,7 @@ colors = ["#DA70D6", "#228B22", "#FA8072", "#FF1493"]
 
 def _sns_context(f):
     """Decorator to apply seaborn color palette to a function."""
+
     @functools.wraps(f)
     def inner(*args, **kwargs):
         with sns.color_palette(colors):

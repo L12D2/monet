@@ -14,6 +14,7 @@ colors = ["#1e90ff", "#DA70D6", "#228B22", "#FA8072", "#FF1493"]
 
 def _default_sns_context(f):
     """Decorator to apply a default seaborn context and color palette to plotting functions."""
+
     @functools.wraps(f)
     def inner(*args, **kwargs):
         with sns.plotting_context("poster"), sns.color_palette(colors):
