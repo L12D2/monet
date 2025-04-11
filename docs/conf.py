@@ -55,6 +55,17 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_autosummary_accessors",
 ]
+
+# Add these new settings
+napoleon_custom_sections = [
+    "no-index",  # Handle :noindex: directive
+]
+
+# # Ensure duplicate warnings don't error
+# suppress_warnings = [
+#     'duplicate.*',  # Suppress duplicate warning messages
+# ]
+
 # exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
 extlinks = {

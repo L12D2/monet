@@ -505,10 +505,14 @@ def taylordiagram(
     addon=False,
     dia=None,
 ):
-    """
-    :no-index:
+    """Create a Taylor diagram from DataFrame.
 
-    Create a Taylor diagram from DataFrame.
+    This is a wrapper around :class:`monet.plots.taylordiagram.TaylorDiagram` for
+    comparing model outputs with observations stored in pandas DataFrames.
+
+    noindex
+    -------
+    This function should not appear in the index
 
     Parameters
     ----------
@@ -535,10 +539,6 @@ def taylordiagram(
     -------
     TaylorDiagram
         The Taylor diagram instance
-
-    See Also
-    --------
-    monet.plots.taylordiagram : The underlying Taylor diagram implementation
     """
     from numpy import corrcoef
 
