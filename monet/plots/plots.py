@@ -494,23 +494,11 @@ def scatter(df, x=None, y=None, title=None, label=None, ax=None, **kwargs):
 
 
 @_default_sns_context
-def taylordiagram(
-    df,
-    marker="o",
-    col1="obs",
-    col2="model",
-    label1="OBS",
-    label2="MODEL",
-    scale=1.5,
-    addon=False,
-    dia=None,
-):
-    """Convenience function for creating Taylor diagrams from DataFrames.
+def taylordiagram(df, marker="o", col1="obs", col2="model", label1="OBS", label2="MODEL",
+                  scale=1.5, addon=False, dia=None):
+    """Create a Taylor diagram from DataFrame.
 
     :noindex:
-
-    A wrapper function to simplify creating Taylor diagrams when comparing
-    model outputs with observations stored in a pandas DataFrame.
 
     Parameters
     ----------
@@ -540,8 +528,7 @@ def taylordiagram(
 
     See Also
     --------
-    monet.plots.taylordiagram
-        The underlying Taylor diagram implementation
+    monet.plots.taylordiagram : The underlying Taylor diagram implementation
     """
     from numpy import corrcoef
 

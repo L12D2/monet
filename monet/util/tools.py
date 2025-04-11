@@ -6,9 +6,6 @@ __author__ = "barry"
 def search_listinlist(array1, array2):
     """Find matching indices between two arrays.
 
-    This function flattens both input arrays, finds common elements between them,
-    and returns the indices where those common elements appear in each array.
-
     Parameters
     ----------
     array1 : numpy.ndarray
@@ -20,17 +17,8 @@ def search_listinlist(array1, array2):
     -------
     tuple
         (index1, index2) containing:
-        - index1 : numpy.ndarray
-            Sorted array of indices where matches were found in array1
-        - index2 : numpy.ndarray
-            Sorted array of indices where matches were found in array2
-
-    Examples
-    --------
-    >>> a1 = np.array([1, 2, 3])
-    >>> a2 = np.array([2, 3, 4])
-    >>> search_listinlist(a1, a2)
-    (array([1, 2]), array([0, 1]))
+        - index1: sorted array of indices in array1 where matches were found
+        - index2: sorted array of indices in array2 where matches were found
     """
     s1 = set(array1.flatten())
     s2 = set(array2.flatten())
