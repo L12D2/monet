@@ -505,14 +505,14 @@ def taylordiagram(
     addon=False,
     dia=None,
 ):
-    """Create a Taylor diagram from DataFrame.
+    """
+    :noindex:
 
-    This is a wrapper around :class:`monet.plots.taylordiagram.TaylorDiagram` for
-    comparing model outputs with observations stored in pandas DataFrames.
+    Create a Taylor diagram comparing observed and modeled data in a DataFrame.
 
-    noindex
-    -------
-    This function should not appear in the index
+    This function provides a simplified interface to the TaylorDiagram class.
+    Taylor diagrams visualize model performance by showing correlation coefficient,
+    standard deviation ratio, and RMS difference on a single plot.
 
     Parameters
     ----------
@@ -539,7 +539,12 @@ def taylordiagram(
     -------
     TaylorDiagram
         The Taylor diagram instance
+
+    See Also
+    --------
+    monet.plots.taylordiagram : The underlying Taylor diagram implementation
     """
+    # Same implementation as before
     from numpy import corrcoef
 
     df = df.drop_duplicates().dropna(subset=[col1, col2])
