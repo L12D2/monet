@@ -494,11 +494,21 @@ def scatter(df, x=None, y=None, title=None, label=None, ax=None, **kwargs):
 
 
 @_default_sns_context
-def taylordiagram(df, marker="o", col1="obs", col2="model", label1="OBS", label2="MODEL",
-                  scale=1.5, addon=False, dia=None):
-    """Create a Taylor diagram from DataFrame.
+def taylordiagram(
+    df,
+    marker="o",
+    col1="obs",
+    col2="model",
+    label1="OBS",
+    label2="MODEL",
+    scale=1.5,
+    addon=False,
+    dia=None,
+):
+    """
+    :no-index:
 
-    :noindex:
+    Create a Taylor diagram from DataFrame.
 
     Parameters
     ----------
