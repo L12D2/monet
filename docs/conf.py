@@ -64,7 +64,7 @@ extlinks = {
 }
 
 autosummary_generate = True  # default in Sphinx v4
-templates_path = ['_templates', sphinx_autosummary_accessors.templates_path]
+templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 autodoc_default_options = {
     "members": True,
     "special-members": "__init__",
@@ -221,15 +221,18 @@ texinfo_documents = [
 
 # Override the autosummary template
 import os
-if not os.path.exists('_templates/autosummary'):
-    os.makedirs('_templates/autosummary')
+
+if not os.path.exists("_templates/autosummary"):
+    os.makedirs("_templates/autosummary")
 
 # Create custom template for functions
-with open('_templates/autosummary/accessor_function.rst', 'w') as f:
-    f.write("""{{ fullname | escape | underline}}
+with open("_templates/autosummary/accessor_function.rst", "w") as f:
+    f.write(
+        """{{ fullname | escape | underline}}
 
 .. currentmodule:: {{ module }}
 
 .. autofunction:: {{ objname }}
    :no-index:
-""")
+"""
+    )

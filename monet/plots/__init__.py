@@ -2,6 +2,7 @@ import warnings
 
 from .colorbars import cmap_discretize, colorbar_index
 from .mapgen import draw_map
+from .plots import create_taylor_diagram  # Import with original name
 from .plots import (
     kdeplot,
     make_spatial_contours,
@@ -10,7 +11,6 @@ from .plots import (
     scatter,
     spatial,
     spatial_bias_scatter,
-    create_taylor_diagram,  # Import with original name
     timeseries,
     wind_barbs,
     wind_quiver,
