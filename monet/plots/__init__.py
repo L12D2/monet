@@ -10,11 +10,15 @@ from .plots import (
     scatter,
     spatial,
     spatial_bias_scatter,
-    taylordiagram,
+    create_taylor_diagram,  # Import with original name
     timeseries,
     wind_barbs,
     wind_quiver,
 )
+
+# Don't import the taylordiagram module at all in __init__
+# Keep the function available under a clear name
+taylordiagram = create_taylor_diagram  # Rename for public API
 
 __all__ = (
     #

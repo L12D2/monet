@@ -64,9 +64,11 @@ extlinks = {
 }
 
 autosummary_generate = True  # default in Sphinx v4
+templates_path = ['_templates', sphinx_autosummary_accessors.templates_path]
 autodoc_default_options = {
     "members": True,
     "special-members": "__init__",
+    "no-index": False,  # Don't add :no-index: to everything by default
 }
 autodoc_member_order = "groupwise"
 numpydoc_class_members_toctree = True
@@ -216,3 +218,18 @@ texinfo_documents = [
 ]
 
 # -- Extension configuration -------------------------------------------------
+
+# Override the autosummary template
+import os
+if not os.path.exists('_templates/autosummary'):
+    os.makedirs('_templates/autosummary')
+
+# Create custom template for functions
+with open('_templates/autosummary/accessor_function.rst', 'w') as f:
+    f.write("""{{ fullname | escape | underline}}
+
+.. currentmodule:: {{ module }}
+
+.. autofunction:: {{ objname }}
+   :no-index:
+""")

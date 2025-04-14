@@ -38,7 +38,10 @@ def _sns_context(f):
 
 
 class TaylorDiagram:
-    """Taylor diagram for visualizing model performance metrics.
+    """
+    :no-index:
+
+    Taylor diagram for visualizing model performance metrics.
 
     The Taylor diagram displays multiple statistical metrics in a single plot:
     - The radial distance from the origin represents the standard deviation

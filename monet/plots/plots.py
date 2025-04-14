@@ -23,7 +23,7 @@ def _default_sns_context(f):
     return inner
 
 
-# CMAQ Spatial Plots
+# Spatial Plots
 @_default_sns_context
 def make_spatial_plot(modelvar, m, dpi=None, plotargs={}, ncolors=15, discrete=False):
     """Create a basic spatial plot using imshow.
@@ -508,28 +508,27 @@ def create_taylor_diagram(
     """
     :no-index:
 
-    Create a Taylor diagram comparing observed and modeled data in a DataFrame.
+    Create a DataFrame-based Taylor diagram using the TaylorDiagram class.
 
-    This function provides a simplified interface to the TaylorDiagram class.
-    Taylor diagrams visualize model performance by showing correlation coefficient,
-    standard deviation ratio, and RMS difference on a single plot.
+    A convenience wrapper for easily creating Taylor diagrams from DataFrames.
+    For the main Taylor diagram implementation, see :mod:`monet.plots.taylordiagram`.
 
     Parameters
     ----------
     df : pandas.DataFrame
-        DataFrame containing observation and model data columns
+        DataFrame containing observation and model data
     marker : str, default "o"
         Marker style for plotting model points
     col1 : str, default "obs"
-        Name of observations column
+        Column name for observations
     col2 : str, default "model"
-        Name of model predictions column
+        Column name for model predictions
     label1 : str, default "OBS"
-        Label for observations in plot legend
+        Label for observations in legend
     label2 : str, default "MODEL"
-        Label for model in plot legend
+        Label for model in legend
     scale : float, default 1.5
-        Scaling factor relative to reference standard deviation
+        Scale factor for diagram
     addon : bool, default False
         If True, add to existing diagram; if False, create new
     dia : TaylorDiagram, optional
@@ -539,10 +538,6 @@ def create_taylor_diagram(
     -------
     TaylorDiagram
         The Taylor diagram instance
-
-    See Also
-    --------
-    monet.plots.taylordiagram : The underlying Taylor diagram implementation
     """
     # Same implementation as before
     from numpy import corrcoef
@@ -573,6 +568,3 @@ def create_taylor_diagram(
         plt.legend(fontsize="small", loc="best")
         plt.tight_layout()
     return dia
-
-# Create an alias for the function to maintain backward compatibility
-taylordiagram = create_taylor_diagram
