@@ -67,25 +67,6 @@ Plotting Functions
 
    api/monet.plots.taylordiagram
 
-.. toctree::
-   :hidden:
-
-   api/generated/monet.plots.cmap_discretize
-   api/generated/monet.plots.colorbar_index
-   api/generated/monet.plots.kdeplot
-   api/generated/monet.plots.make_spatial_contours
-   api/generated/monet.plots.make_spatial_plot
-   api/generated/monet.plots.normval
-   api/generated/monet.plots.savefig
-   api/generated/monet.plots.scatter
-   api/generated/monet.plots.sp_scatter_bias
-   api/generated/monet.plots.spatial
-   api/generated/monet.plots.spatial_bias_scatter
-   api/generated/monet.plots.taylordiagram
-   api/generated/monet.plots.timeseries
-   api/generated/monet.plots.wind_barbs
-   api/generated/monet.plots.wind_quiver
-
 .. _xarray-accessors:
 
 DataArray Accessor
