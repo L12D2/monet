@@ -65,7 +65,7 @@ Plotting Functions
 .. toctree::
    :hidden:
 
-   api/monet.plots.taylor
+   api/monet.plots.taylordiagram
 
 .. toctree::
    :hidden:
