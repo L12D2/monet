@@ -34,9 +34,9 @@ copyright = "2018, Barry Baker"
 author = "Barry Baker"
 
 # The short X.Y version
-version = ""
+version = "2.3.0"
 # The full version, including alpha/beta/rc tags
-release = ""
+release = "2.3.0"
 
 # -- General configuration ---------------------------------------------------
 
