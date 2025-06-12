@@ -1,10 +1,9 @@
-
 Get in Touch
 ------------
 
 Ask questions, suggest features or view source code `on GitHub`_.
 
-If an issue arrises please post on the
+If an issue arises please post on the
 `GitHub issues <https://github.com/noaa-oar-arl/monet/issues>`__.
 
 
@@ -13,6 +12,7 @@ API
 
 .. module:: monet
 
+.. py:currentmodule:: None
 
 Top-level functions
 ~~~~~~~~~~~~~~~~~~~
@@ -37,6 +37,35 @@ Modules
    monet.plots
    monet.util
 
+Plotting Functions
+~~~~~~~~~~~~~~~~~~
+
+.. currentmodule:: monet.plots
+
+.. autosummary::
+   :toctree: api/
+   :template: autosummary/accessor_function.rst
+
+   cmap_discretize
+   colorbar_index
+   kdeplot
+   make_spatial_contours
+   make_spatial_plot
+   normval
+   savefig
+   scatter
+   sp_scatter_bias
+   spatial
+   spatial_bias_scatter
+   taylordiagram
+   timeseries
+   wind_barbs
+   wind_quiver
+
+.. toctree::
+   :hidden:
+
+   api/monet.plots.taylordiagram
 
 .. _xarray-accessors:
 

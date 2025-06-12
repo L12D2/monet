@@ -34,9 +34,9 @@ copyright = "2018, Barry Baker"
 author = "Barry Baker"
 
 # The short X.Y version
-version = ""
+version = "2.3.0"
 # The full version, including alpha/beta/rc tags
-release = ""
+release = "2.3.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -55,6 +55,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_autosummary_accessors",
 ]
+
 # exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
 extlinks = {
@@ -63,9 +64,11 @@ extlinks = {
 }
 
 autosummary_generate = True  # default in Sphinx v4
+templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 autodoc_default_options = {
     "members": True,
     "special-members": "__init__",
+    "no-index": False,  # Don't add :no-index: to everything by default
 }
 autodoc_member_order = "groupwise"
 numpydoc_class_members_toctree = True
@@ -85,8 +88,10 @@ intersphinx_mapping = {
 
 linkcheck_ignore = [
     "https://glossary.ametsoc.org/wiki/",  # currently a cert issue
-    "https://doi.org/10.1029/2000WR900033",  # 403 at Wiley
+    "https://doi.org/10.1029/2000WR900033",  # 403 at journal
+    "https://doi.org/10.3390/atmos8110210",  # 403 at journal
 ]
+linkcheck_report_timeouts_as_broken = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
@@ -105,7 +110,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -214,3 +219,21 @@ texinfo_documents = [
 ]
 
 # -- Extension configuration -------------------------------------------------
+
+# Override the autosummary template
+import os
+
+if not os.path.exists("_templates/autosummary"):
+    os.makedirs("_templates/autosummary")
+
+# Create custom template for functions
+with open("_templates/autosummary/accessor_function.rst", "w") as f:
+    f.write(
+        """{{ fullname | escape | underline}}
+
+.. currentmodule:: {{ module }}
+
+.. autofunction:: {{ objname }}
+   :no-index:
+"""
+    )
