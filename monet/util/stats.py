@@ -1806,9 +1806,11 @@ def MAPE(obs, mod, axis = None):
     type
         Description of returned object.
 
-    """
-    
-    return np.ma.mean(np.ma.abs((obs - mod) / obs) * 100, axis = axis)
+    """ 
+    mape = np.ma.mean(np.ma.abs(np.divide(obs - mod, obs, where=obs != 0)) * 100, axis=axis)
+    print(mape)
+
+    return mape
 
 def SMAPE(obs, mod, axis = None):
     """Symmetric Mean absolute percentage error
