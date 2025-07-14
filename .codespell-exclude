@@ -1,6 +1,7 @@
         "CNA",
             #                                     scrip_file=d1.monet.scrip, check_N=20 ) )
    "SIZ",	"Size distribution"
+   "MAPE",      "Mean absolute percentage error"
    "ALL",	"All of the above retrievals (SIZ to FLX) in one file"
           <th>CAf</th>
           <td>CAf</td>
