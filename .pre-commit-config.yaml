@@ -25,6 +25,12 @@ repos:
 
   - repo: https://github.com/PyCQA/flake8
     rev: "7.1.1"
+
+  - repo: https://github.com/codespell-project/codespell
+  rev: v2.2.5
+  hooks:
+    - id: codespell
+      args: ["-L", "MAPE"]
     hooks:
       - id: flake8
 
