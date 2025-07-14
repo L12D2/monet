@@ -1808,7 +1808,6 @@ def MAPE(obs, mod, axis = None):
 
     """ 
     mape = np.ma.mean(np.ma.abs(np.divide(obs - mod, obs, where=obs != 0)) * 100, axis=axis)
-    print(mape)
 
     return mape
 
