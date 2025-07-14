@@ -20,7 +20,7 @@ util : module
 from . import met_funcs, monet_accessor, plots, util
 from .plots import savefig
 
-__version__ = "2.2.12"
+__version__ = "2.3.0"
 
 # Core functionality
 __all__ = [
