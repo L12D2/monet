@@ -1753,6 +1753,88 @@ def ETS(obs, mod, minval, maxval):
     return ets
 
 
+def MAE(obs, mod, axis=None):
+    """Mean absolute error
+
+    Parameters
+    ----------
+    obs : type
+        Description of parameter `obs`.
+    mod : type
+        Description of parameter `mod`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
+
+    mae = np.ma.mean(np.ma.abs(obs - mod), axis=axis)
+    return mae
+
+
+def MSE(obs, mod, axis=None):
+    """Mean squared error
+
+    Parameters
+    ----------
+    obs : type
+        Description of parameter `obs`.
+    mod : type
+        Description of parameter `mod`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
+
+    return np.ma.mean((obs - mod) ** 2, axis=axis)
+
+
+def MAPE(obs, mod, axis=None):
+    """Mean absolute percentage error
+
+    Parameters
+    ----------
+    obs : type
+        Description of parameter `obs`.
+    mod : type
+        Description of parameter `mod`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
+    mape = np.ma.mean(np.ma.abs(np.divide(obs - mod, obs, where=obs != 0)) * 100, axis=axis)
+
+    return mape
+
+
+def SMAPE(obs, mod, axis=None):
+    """Symmetric Mean absolute percentage error
+
+    Parameters
+    ----------
+    obs : type
+        Description of parameter `obs`.
+    mod : type
+        Description of parameter `mod`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
+
+    return np.ma.mean(2 * np.ma.abs(obs - mod) / (np.ma.abs(obs) + np.ma.abs(mod)) * 100, axis=axis)
+
+
 def CSI(obs, mod, minval, maxval):
     """Critical Success Index (1 is perfect - Range 0 -> 1)
 
