@@ -1,7 +1,10 @@
-"CNA"
-"scrip"
-"SIZ"
-"MAPE"
-"ALL"
-CAf
+        "CNA",
+            #                                     scrip_file=d1.monet.scrip, check_N=20 ) )
+   "SIZ",	"Size distribution"
+   "ALL",	"All of the above retrievals (SIZ to FLX) in one file"
+          <th>CAf</th>
+          <td>CAf</td>
 __author__ = "Yannick Copin <yannick.copin@laposte.net>"
+def MAPE(obs, mod, axis=None):
+    mape = np.ma.mean(np.ma.abs(np.divide(obs - mod, obs, where=obs != 0)) * 100, axis=axis)
+    return mape
