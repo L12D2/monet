@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from monet.util.stats import MAE, MAPE, MSE, SMAPE, scores
 
@@ -56,11 +57,25 @@ def test_mae_basic():
     assert np.isclose(MAE(obs, mod), 7.0 / 3.0)
 
 
+@pytest.mark.parametrize("invalid", [np.nan, np.inf, -np.inf])
+def test_mae_obs_invalid(invalid):
+    obs = np.array([invalid, 2.0, 3.0])
+    mod = np.array([1.0, 1.0, 1.0])
+    assert np.isclose(MAE(obs, mod), 1.5)
+
+
 def test_mse_basic():
     obs = np.array([1.0, 3.0, 5.0])
     mod = np.array([2.0, 1.0, 9.0])
     # Squared errors are [1, 4, 16], mean is 7.
     assert np.isclose(MSE(obs, mod), 7.0)
+
+
+@pytest.mark.parametrize("invalid", [np.nan, np.inf, -np.inf])
+def test_mse_obs_invalid(invalid):
+    obs = np.array([invalid, 2.0, 3.0])
+    mod = np.array([1.0, 1.0, 1.0])
+    assert np.isclose(MSE(obs, mod), 2.5)
 
 
 def test_mape_masks_zero_observations():
@@ -92,7 +107,14 @@ def test_mape_masks_zero_observations():
     assert np.isclose(old, expected / 2.0)
 
 
-def test_smape_and_divide_where_pitfall_demo():
+@pytest.mark.parametrize("invalid", [np.nan, np.inf, -np.inf])
+def test_mape_obs_invalid(invalid):
+    obs = np.array([invalid, 2.0])
+    mod = np.array([5.0, 1.0])
+    assert np.isclose(MAPE(obs, mod), 50.0)
+
+
+def test_smape_masks_both_zero():
     obs = np.array([0.0, 2.0])
     mod = np.array([0.0, 1.0])
 
@@ -113,3 +135,19 @@ def test_smape_and_divide_where_pitfall_demo():
     wrong = np.mean(frac_divide_where * 100)
     assert np.isclose(wrong, expected / 2.0)
     assert not np.isclose(wrong, out)
+
+
+@pytest.mark.parametrize("invalid", [np.nan, np.inf, -np.inf])
+def test_smape_obs_invalid(invalid):
+    obs = np.array([invalid, 2.0])
+    mod = np.array([0.0, 1.0])
+    assert np.isclose(SMAPE(obs, mod), 200.0 / 3.0)
+
+
+@pytest.mark.parametrize("func", [MAE, MSE, MAPE, SMAPE])
+def test_all_invalid_returns_nan(func):
+    obs = np.array([np.nan, np.nan])
+    mod = np.array([1.0, 2.0])
+    result = func(obs, mod)
+    assert np.isnan(result)
+    assert np.isscalar(result), "should be scalar, not 0-d or 1-el array"
