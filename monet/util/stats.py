@@ -1770,6 +1770,8 @@ def MAE(obs, mod, axis=None):
     float or numpy.ndarray
         Mean absolute error value(s), in the same units as ``obs`` and ``mod``.
     """
+    obs = np.asanyarray(obs)
+    mod = np.asanyarray(mod)
     mae = np.ma.mean(np.ma.abs(np.ma.masked_invalid(obs - mod)), axis=axis)
     return np.ma.filled(mae, np.nan)[()]
 
@@ -1791,6 +1793,8 @@ def MSE(obs, mod, axis=None):
     float or numpy.ndarray
         Mean squared error value(s), in squared units of ``obs`` and ``mod``.
     """
+    obs = np.asanyarray(obs)
+    mod = np.asanyarray(mod)
     return np.ma.filled(np.ma.mean(np.ma.masked_invalid((obs - mod) ** 2), axis=axis), np.nan)[()]
 
 
@@ -1815,6 +1819,8 @@ def MAPE(obs, mod, axis=None):
     -----
     Elements where ``obs == 0`` are masked and excluded from the mean.
     """
+    obs = np.asanyarray(obs)
+    mod = np.asanyarray(mod)
     with np.errstate(divide="ignore", invalid="ignore"):
         # Ignore intentional division by zero (will be masked)
         ratio = np.ma.masked_where(obs == 0, (obs - mod) / obs)
@@ -1843,6 +1849,8 @@ def SMAPE(obs, mod, axis=None):
     -----
     Elements where ``abs(obs)`` and ``abs(mod)`` are both zero are masked and excluded from the mean.
     """
+    obs = np.asanyarray(obs)
+    mod = np.asanyarray(mod)
     denom = np.ma.abs(obs) + np.ma.abs(mod)
     frac = np.ma.masked_where(denom == 0, 2 * np.ma.abs(obs - mod) / denom)
     return np.ma.filled(np.ma.mean(np.ma.masked_invalid(frac) * 100, axis=axis), np.nan)[()]

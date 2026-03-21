@@ -151,3 +151,16 @@ def test_all_invalid_returns_nan(func):
     result = func(obs, mod)
     assert np.isnan(result)
     assert np.isscalar(result), "should be scalar, not 0-d or 1-el array"
+
+
+@pytest.mark.parametrize(
+    ("func", "obs", "mod", "expected"),
+    [
+        (MAE, [1.0, 3.0, 5.0], [2.0, 1.0, 9.0], 7.0 / 3.0),
+        (MSE, [1.0, 3.0, 5.0], [2.0, 1.0, 9.0], 7.0),
+        (MAPE, [0.0, 2.0], [5.0, 1.0], 50.0),
+        (SMAPE, [0.0, 2.0], [0.0, 1.0], 200.0 / 3.0),
+    ],
+)
+def test_accepts_array_like_inputs(func, obs, mod, expected):
+    assert np.isclose(func(obs, mod), expected)

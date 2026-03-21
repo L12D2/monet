@@ -13,3 +13,4 @@ from monet.util.stats import MAE, MAPE, MSE, SMAPE, scores
     out = MAPE(obs, mod)
     assert np.isclose(MAPE(obs, mod), 50.0)
 @pytest.mark.parametrize("func", [MAE, MSE, MAPE, SMAPE])
+        (MAPE, [0.0, 2.0], [5.0, 1.0], 50.0),
